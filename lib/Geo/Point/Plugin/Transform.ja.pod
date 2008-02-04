@@ -1,36 +1,11 @@
-package Geo::Point::Plugin::Transform;
-
-use warnings;
-use strict;
-use Carp;
-
-use version;our $VERSION = qv('0.0.2');
-
-use Geo::Point;
-use Geo::Proj;
-
-package # hide from PAUSE
-        Geo::Point;
-
-sub transform {
-    my ($self,$tproj) = @_;
-
-    my $pt = Geo::Proj->to($self->proj, $tproj, [$self->x, $self->y]);
-
-    return Geo::Point->xy(@{$pt},$tproj);
-}
-
-1; # Magic true value required at end of module
-__END__
-
 =head1 NAME
 
-Geo::Point::Plugin::Transform - Add transforming projection method to Geo::Point
+Geo::Point::Plugin::Transform - Geo::Pointモジュールに測地系変換メソッドを付加する
 
 
 =head1 VERSION
 
-This document describes Geo::Point::Plugin::Transform version 0.0.2
+この文書は Geo::Point::Plugin::Transform バージョン 0.0.2について記述しています。
 
 
 =head1 SYNOPSIS
@@ -38,16 +13,31 @@ This document describes Geo::Point::Plugin::Transform version 0.0.2
   use Geo::Point::Plugin::Transform;
   
   my $pt_wgs84 = Geo::Point->longlat(135.00,35.00,"wgs84");
-  my $pt_clrk  = $pt_wgs84->transform('clark66');   # Geo::Point object
+  my $pt_clrk  = $pt_wgs84->transform('clark66');   # Geo::Point オブジェクト
 
 
-=head1 METHOD 
+=head1 DESCRIPTION
 
-Method is mprementing as object method of Geo::Point class.
+このモジュールを導入する事により、Geo::Pointオブジェクトにtransformメソッドが
+付加され、異なる測地系或いは投影法に変換されたGeo::Pointオブジェクトを得ることが
+できます。
 
-B<transform>(PROJECTION)
 
-Transform point to given projection, and create new Geo::Point object.
+=head1 OBJECT METHOD
+
+メソッドはGeo::Pointオブジェクトに加えられます。
+
+=over 4
+
+=item * transform( PROJECTION )
+
+変換したい測地系/投影法名（PROJECTION）を引数にとります。
+測地系/投影法名はGeo::Projモジュールにて定義されているものが利用可能です。
+戻り値は、変換されたGeo::Pointオブジェクトです。
+戻り値のGeo::Pointオブジェクトは、新たに生成されたものとなり、呼び出し元の
+オブジェクトは保持されます。
+
+=back
 
 
 =head1 DEPENDENCIES

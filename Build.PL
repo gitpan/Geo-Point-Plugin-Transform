@@ -8,10 +8,12 @@ my $builder = Module::Build->new(
     dist_author         => 'OHTSUKA Ko-hei <nene@kokogiko.net>',
     dist_version_from   => 'lib/Geo/Point/Plugin/Transform.pm',
     requires => {
-        'Test::More' => 0,
         'version'    => 0,
         'Geo::Point' => 0,
         'Geo::Proj'  => 0,
+    },
+    build_requires => {
+        'Test::Base' => 0,
     },
     add_to_cleanup      => [ 'Geo-Point-Plugin-Transform-*' ],
 );
